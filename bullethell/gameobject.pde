@@ -35,6 +35,10 @@ abstract class GameObject {
       i++;
     }    
   }
+  
+  void collideBossLaser () {
+    if (bossLaserOn) if (x+size > width/2 && x < width/2)  lives--;
+  }
 
   void show() {
     if (this.size == 300 || this.size == 70) image(display, x, y, size*1.69, size); 
@@ -52,7 +56,7 @@ abstract class GameObject {
   }
   
   boolean offScreen() {
-    return (x < 0 || x > width || y < -50 || y > height);
+    return (x < 0 || x > width || y > height);
   }
   
 }

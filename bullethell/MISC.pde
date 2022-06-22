@@ -1,5 +1,20 @@
 
+//mode credit =============================================================
+void credit() {
+  background(black);
+  fill(silver);
+  textSize(69);
+  text("Bullet Hell - Closing Credits", 100, 100); //game title
+  
+  //credit message --------------------------------------------------------
+  textSize(18);
+  //to be finished tomorrow
+  
+}
 
+void creditClick() {
+  mode = INTRO;  
+}
 
 //ultilities ==============================================================
 void reset() {
@@ -12,6 +27,7 @@ void reset() {
   statCounter = 1;
   speedUP = speedDuration;
   score = 0;
+  bossLaserOn = false;
   //power-ups
   Powerup1Act = 0;
   Powerup2Act = 0;

@@ -32,7 +32,7 @@ color gold       = #E5C982;
 final int INTRO = 0;
 final int GAME  = 1; 
 final int OVER  = 2;
-final int PAUSE = 3;
+final int CREDIT= 3;
 int mode, triumph; 
 
 //class initialization
@@ -47,11 +47,12 @@ boolean stat, speed;
 //misc variables
 PFont AVA;
 PImage spaceship, myLaser;
-PImage enemy1, enemyBullet, enemy2, enemy3, enemy3b, boss;
+PImage enemy1, enemyBullet, enemy2, enemy3, enemy3b, boss, bossLaser;
 PImage powerup, powerup2;
 int statCounter, score, speedDuration;
 float speedUP;
-PImage Q, S, speedBoost;
+PImage Q, S, speedBoost, trophy;
+boolean bossLaserOn;
 
 //intro gif stuff
 PImage[] introGif;
@@ -69,7 +70,7 @@ void setup() {
   textAlign(CORNER, CENTER);
   fullHealth = 10000;
   speedDuration = 30;
-  triumph = 200;
+  triumph = 300;
   Powerup1Length = 60;
   Powerup2Length = 500; 
   
@@ -87,11 +88,12 @@ void setup() {
   explosion = new PImage[12];
   for (int a=0;a<12;a++) explosion[a] = loadImage("explosion/frame_"+a+"_delay-0.1s.gif");
   
-  //text, fonts, images
+  //text, fonts, images ======================
   AVA = createFont("AVA.ttf", 169);
   Q = loadImage("Q.png");
   S = loadImage("S.png");
   speedBoost = loadImage("speed.png");
+  trophy = loadImage("trophy.png");
       //player ship
   spaceship = loadImage("spaceship.png");
   myLaser = loadImage("myLaser.png");
@@ -101,6 +103,7 @@ void setup() {
   enemy3 = loadImage("enemy3.png");
   enemy3b = loadImage("enemy3b.png");
   enemyBullet = loadImage("enemy1Laser.png");
+  bossLaser = loadImage("bossLaser.png");
   boss = loadImage("boss.png");
   powerup = loadImage("powerup.png");
   powerup2 = loadImage("powerup2.png");
@@ -111,10 +114,12 @@ void draw() {
   if (mode == INTRO)        intro();
   else if (mode == GAME)     game();
   else if (mode == OVER) gameover();
+  else if (mode == CREDIT) credit();
 }
 
 void mouseClicked() {
   if (mode == INTRO)        introClick();
   else if (mode == GAME)     gameClick();
   else if (mode == OVER) gameoverClick();
+  else if (mode == CREDIT) creditClick();
 }

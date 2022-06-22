@@ -9,10 +9,17 @@ class Enemy1 extends GameObject {
   void act() {
     super.act();
     super.enemyShot(3);
+    super.collideBossLaser();   
     
     //shoot
     if (frameCount%(int) random(50, 60) == 0) objects.add(new EnemyBullet(x+10, y+50, 0, 10));
     if (frameCount%(int) random(50, 60) == 0) objects.add(new EnemyBullet(x+80, y+50, 0, 10));
+    
+    //when crashing into things
+    for (int a=0;a<objects.size();a++) {
+      GameObject ene = objects.get(a);
+      if (collidingWith(ene)) if (ene instanceof Enemy2) ene.lives = 0;
+    }
     
     //remove if goes off screen
     if (offScreen()) lives = 0;
@@ -25,14 +32,15 @@ class Enemy1 extends GameObject {
 
 //enemy2 ==============================================================================
 class Enemy2 extends GameObject {
-  Enemy2() {
-    super(random(20,width-20), -15, (int) random(-5,5), (int) random(3,5), 60, 1, enemy2);
+  Enemy2(float X, float Y, float VX) {
+    super(X, Y, VX, (int) random(3,5), 60, 1, enemy2);
     //x,y,vx,vy,size,lives,display
   }
   
   void act() {
     super.act();
     super.enemyShot(1);
+    super.collideBossLaser();
 
     //shoot
     if (frameCount%(int) random(40, 50) == 0) objects.add(new EnemyBullet(x+17, y+15, 0, 10));
@@ -65,6 +73,7 @@ class Enemy3 extends GameObject {
   void act() {
     super.act();
     super.enemyShot(5);
+    super.collideBossLaser();
     //spawn =================================================
     //crash into everything
     for (int a=0;a<objects.size();a++) {
@@ -89,17 +98,25 @@ class Enemy3 extends GameObject {
 //boss ==============================================================================
 class Boss extends GameObject {
   Boss() {
-    super(0, (int) random(0,height/3), 0.5, 0.2, 300, 5, boss);
+    super(width/2-140, -280, 0, 0.5, 280, 15, boss);
     //x,y,vx,vy,size,lives,display
   }
   
   void act() {
-    super.enemyShot(200);
-    
+    super.enemyShot(50);
     x = x + vx;
     y = y + vy;
-    ////shoot
-    //if (frameCount%(int) random(40, 50) == 0) objects.add(new EnemyBullet(x+17, y+15, 0, 10));
+    //shoot
+    if (frameCount % 200 == 0) { //laser
+      objects.add(new BossLaser(x+size/2-7, y+size-100,0.5,height-this.y)); //down laser: the vy must be equal to that of the boss
+      objects.add(new BossLaser(x+size/2-7, -30,0.5, y+70+30)); //up laser: i can't even underestand my own math by this point
+    }
+    if (frameCount%100== 0) { //the swarm ships
+      objects.add(new Enemy2(x-60, y+size-150,-1)); //backleft
+      objects.add(new Enemy2(x+size, y+size-150,1)); //backright
+      objects.add(new Enemy2(x+size/2-90, y+size,0)); //frontleft
+      objects.add(new Enemy2(x+size/2+30, y+size,0)); //frontright
+    }
 
     //crash into everything
     for (int a=0;a<objects.size();a++) {

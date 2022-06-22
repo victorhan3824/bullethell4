@@ -11,18 +11,20 @@ class Starship extends GameObject{
   
   void act() {
     super.act();
+    super.collideBossLaser();
     //managing the gun ===================
     if (space && cooldown >= threshold) {
     //with power-up 1 ====================
       if (Powerup1Act > 0) { 
-        objects.add(new Bullet(player1.x + player1.size/2 - 20)); 
-        objects.add(new Bullet(player1.x + player1.size/2)); 
+        //middle of the star ship is player1.x + player1.size/2 - 10
+        objects.add(new Bullet(player1.x + player1.size/2 - 40, player1.y + player1.size/2)); 
+        objects.add(new Bullet(player1.x + player1.size/2 + 20, player1.y + player1.size/2)); 
         cooldown = 8;
         Powerup1Act--;
       }    
     //regular ============================
       else {
-        objects.add(new Bullet(player1.x + player1.size/2 - 10)); //note the 10 here is half of size of bullet
+        objects.add(new Bullet(player1.x + player1.size/2 - 10, player1.y)); //note the 10 here is half of size of bullet
         cooldown = 0;
       }
     }

@@ -21,7 +21,7 @@ void game() {
   overheader();
   gameDebug();
   
-  if (player1.lives <= 0 || score >= triumph) mode = OVER;
+  if (player1.lives <= 0) mode = OVER;
   
 } //end of the drawing part ======================================================
 
@@ -30,13 +30,10 @@ void addObjects() { //----------------------------------------------------------
   objects.add(0, new Star());
   
   //adding enemies
-  //int bossSpawn = 1000;
-  //if (frameCount < bossSpawn || frameCount > 2*bossSpawn) {
   if (frameCount % 70 == 0) objects.add(new Enemy1());
   if (frameCount % 100 == 0) objects.add(new Enemy3());
-  //}
-  if (frameCount % 30 == 0) objects.add(new Enemy2()); 
-  //if (frameCount == bossSpawn) objects.add(new Boss());
+  if (frameCount % 30 == 0) objects.add(new Enemy2(random(20,width-20),-15,(int) random(-5,5))); 
+  if (frameCount % 1000 == 0) objects.add(new Boss());
 }
 
 void gameEngine() { //------------------------------------------------------------
@@ -68,6 +65,7 @@ void gameDebug() { //-----------------------------------------------------------
 }
 
 void overheader() {
+  float progress; //this determines how far are you into a stage, modifies the score display bar
   fill(white);
   textSize(15);
   //score display ====================================
@@ -77,10 +75,17 @@ void overheader() {
   stroke(white);
   rect(width/2,40,75,10,5);
   //bar
-  fill(gold);
+  if (score < 100) fill(bronze);
+  if (score >= 100 && score < 200) fill(silver);
+  if (score >= 200) fill(gold);
   noStroke();
   
-  float progress = (float(score)/triumph)*75;
+  if (score >= triumph) { //when you have already won the game
+    progress = 75; 
+    image(trophy, width/2+37.5-25, 60, 50, 50);
+  }
+  
+  else progress = (float(score%100)/100)*75; //when you are still trying to win
   rect(width/2,40,progress,10,5);
   //power up display =================================
   image(powerup,width/3,10,70,70);
