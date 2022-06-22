@@ -37,7 +37,7 @@ abstract class GameObject {
   }
   
   void collideBossLaser () {
-    if (bossLaserOn) if (x+size > width/2 && x < width/2)  lives--;
+    if (bossLaserOn) if (dist(x+size/2,y+size/2,width/2,y+size/2) <= size/2)  lives--;
   }
 
   void show() {

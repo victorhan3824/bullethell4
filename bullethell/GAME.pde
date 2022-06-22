@@ -30,10 +30,10 @@ void addObjects() { //----------------------------------------------------------
   objects.add(0, new Star());
   
   //adding enemies
-  if (frameCount % 70 == 0) objects.add(new Enemy1());
+  if (frameCount % 50 == 0) objects.add(new Enemy1());
   if (frameCount % 100 == 0) objects.add(new Enemy3());
   if (frameCount % 30 == 0) objects.add(new Enemy2(random(20,width-20),-15,(int) random(-5,5))); 
-  if (frameCount % 1000 == 0) objects.add(new Boss());
+  if (frameCount % 2200 == 0 || frameCount == 300) objects.add(new Boss());
 }
 
 void gameEngine() { //------------------------------------------------------------
@@ -138,5 +138,5 @@ void overheader() {
 //end of sub-functions ===========================================================
 
 void gameClick() {
-  mode = OVER;
+  //nothing happen lol
 }

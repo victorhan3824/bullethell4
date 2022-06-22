@@ -61,12 +61,12 @@ class Enemy3 extends GameObject {
     if (determiner == 0) {
       x = 0;
       display = enemy3;
-      vx = 5;
+      vx = 7;
     }
     if (determiner == 1) {
       x = width;
       display = enemy3b;
-      vx = -5;
+      vx = -7;
     }
   }
   
@@ -97,20 +97,36 @@ class Enemy3 extends GameObject {
 
 //boss ==============================================================================
 class Boss extends GameObject {
+  boolean shield;
   Boss() {
     super(width/2-140, -280, 0, 0.5, 280, 15, boss);
     //x,y,vx,vy,size,lives,display
+    shield = false;
   }
   
   void act() {
-    super.enemyShot(50);
+    
+    //shield
+    if (shield == false) super.enemyShot(50);
+    else {
+      noFill();
+      strokeWeight(3);
+      stroke(white);
+      circle(x+size/2,y+size/2,size);
+    }
+    
     x = x + vx;
     y = y + vy;
     //shoot
-    if (frameCount % 200 == 0) { //laser
+    if (frameCount % 100 == 0) { //laser
       objects.add(new BossLaser(x+size/2-7, y+size-100,0.5,height-this.y)); //down laser: the vy must be equal to that of the boss
       objects.add(new BossLaser(x+size/2-7, -30,0.5, y+70+30)); //up laser: i can't even underestand my own math by this point
+      
+      shield = true;
     }
+    
+    if (frameCount%150 == 0) shield = false;
+    
     if (frameCount%100== 0) { //the swarm ships
       objects.add(new Enemy2(x-60, y+size-150,-1)); //backleft
       objects.add(new Enemy2(x+size, y+size-150,1)); //backright

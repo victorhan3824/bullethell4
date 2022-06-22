@@ -37,7 +37,7 @@ class BossLaser extends GameObject {
   void act() {
     super.act();
     n++;
-    if (n > 100) {
+    if (n > 60) {
       lives = 0;
       n = 0;
     }
